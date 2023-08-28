@@ -7,12 +7,9 @@ use App\Http\Controllers\SourceItemController;
 use App\Http\Middleware\LogMiddleware;
 
 
-Route::resource('product_cards', ProductCardController::class);
-Route::resource('source_items', SourceItemController::class);
-Route::post('product_cards/{productCard}/associate/{sourceItem}', [ProductCardController::class, 'associate']);
-
-Route::get('/product_cards', 'ProductCardController@index');
-
+Route::resource('source-items', SourceItemController::class);
+Route::post('product-cards/{productCard}/associate/{sourceItem}', [ProductCardController::class, 'associate']);
+Route::resource('product-cards', ProductCardController::class);
 Route::middleware([LogMiddleware::class])->group(function () {
     // маршруты здесь
 });
