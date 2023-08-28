@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\ProductCard;
+use App\Models\SourceItem;
 
 class ProductCardController extends Controller
 {
@@ -79,6 +81,14 @@ class ProductCardController extends Controller
         $productCard = ProductCard::findOrFail($id);
         $productCard->delete();
         return response()->json(null, 204);
+    }
+    public function associate(ProductCard $productCard, SourceItem $sourceItem)
+    {
+        // Проверка, что карточка товара и товар источник принадлежат пользователю или другая логика безопасности
+
+        $productCard->sourceItems()->attach($sourceItem);
+
+        return response()->json(['message' => 'Товары успешно сопоставлены']);
     }
 }
 
