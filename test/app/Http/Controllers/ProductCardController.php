@@ -55,4 +55,17 @@ class ProductCardController extends Controller
 
         return redirect()->route('product-cards.index')->with('success', 'Product card deleted successfully.');
     }
+    public function show($id)
+    {
+        $product = Product::findOrFail($id);
+
+        // Получаем значение запроса из GET-параметра 'query' или используем пустую строку
+        $query = request()->input('query', '');
+
+        // Применяем оператор LIKE для поиска товаров
+        $conccurencies = $product->conccurencies()
+            ->where('name', 'LIKE', "%{$query}%")
+            ->get();
+        return view('products.show', compact('product', 'conccurencies'));
+    }
 }
