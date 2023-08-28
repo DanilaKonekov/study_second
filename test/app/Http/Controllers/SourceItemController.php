@@ -6,59 +6,48 @@ use Illuminate\Http\Request;
 
 class SourceItemController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
-        //
+        $sourceItems = SourceItem::all();
+        return response()->json($sourceItems);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
+    public function show($id)
     {
-        //
+        $sourceItem = SourceItem::findOrFail($id);
+        return response()->json($sourceItem);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
-        //
+        $validatedData = $request->validate([
+            'name' => 'required|string',
+            'opt_price' => 'required|numeric',
+            'retail_price' => 'nullable|numeric',
+        ]);
+
+        $sourceItem = SourceItem::create($validatedData);
+        return response()->json($sourceItem, 201);
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
+    public function update(Request $request, $id)
     {
-        //
+        $sourceItem = SourceItem::findOrFail($id);
+
+        $validatedData = $request->validate([
+            'name' => 'required|string',
+            'opt_price' => 'required|numeric',
+            'retail_price' => 'nullable|numeric',
+        ]);
+
+        $sourceItem->update($validatedData);
+        return response()->json($sourceItem, 200);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
+    public function destroy($id)
     {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
+        $sourceItem = SourceItem::findOrFail($id);
+        $sourceItem->delete();
+        return response()->json(null, 204);
     }
 }

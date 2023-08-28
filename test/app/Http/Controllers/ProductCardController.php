@@ -12,8 +12,7 @@ class ProductCardController extends Controller
     public function index()
     {
         $productCards = ProductCard::all();
-
-        return view('product-cards.index', compact('productCards'));
+        return response()->json($productCards);
     }
 
     /**
@@ -29,15 +28,23 @@ class ProductCardController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validatedData = $request->validate([
+            'name' => 'required|string',
+            'article_number' => 'required|string',
+            'retail_price' => 'nullable|numeric',
+        ]);
+
+        $productCard = ProductCard::create($validatedData);
+        return response()->json($productCard, 201);
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show($id)
     {
-        //
+        $productCard = ProductCard::findOrFail($id);
+        return response()->json($productCard);
     }
 
     /**
@@ -51,16 +58,27 @@ class ProductCardController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, $id)
     {
-        //
+        $productCard = ProductCard::findOrFail($id);
+
+        $validatedData = $request->validate([
+            'name' => 'required|string',
+            'article_number' => 'required|string',
+            'retail_price' => 'nullable|numeric',
+        ]);
+        $productCard->update($validatedData);
+        return response()->json($productCard, 200);
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy($id)
     {
-        //
+        $productCard = ProductCard::findOrFail($id);
+        $productCard->delete();
+        return response()->json(null, 204);
     }
 }
+
