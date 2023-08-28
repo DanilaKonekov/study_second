@@ -2,53 +2,57 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Models\SourceItem;
+use Illuminate\Http\Request;
 
 class SourceItemController extends Controller
 {
     public function index()
     {
         $sourceItems = SourceItem::all();
-        return response()->json($sourceItems);
+        return view('source-items.index', compact('sourceItems'));
     }
 
-    public function show($id)
+    public function create()
     {
-        $sourceItem = SourceItem::findOrFail($id);
-        return response()->json($sourceItem);
+        return view('source-items.create');
     }
 
     public function store(Request $request)
     {
         $validatedData = $request->validate([
-            'name' => 'required|string',
+            'name' => 'required',
             'opt_price' => 'required|numeric',
             'retail_price' => 'nullable|numeric',
         ]);
 
-        $sourceItem = SourceItem::create($validatedData);
-        return response()->json($sourceItem, 201);
+        SourceItem::create($validatedData);
+
+        return redirect()->route('source-items.index')->with('success', 'Source item created successfully.');
     }
 
-    public function update(Request $request, $id)
+    public function edit(SourceItem $sourceItem)
     {
-        $sourceItem = SourceItem::findOrFail($id);
+        return view('source-items.edit', compact('sourceItem'));
+    }
 
+    public function update(Request $request, SourceItem $sourceItem)
+    {
         $validatedData = $request->validate([
-            'name' => 'required|string',
+            'name' => 'required',
             'opt_price' => 'required|numeric',
             'retail_price' => 'nullable|numeric',
         ]);
 
         $sourceItem->update($validatedData);
-        return response()->json($sourceItem, 200);
+
+        return redirect()->route('source-items.index')->with('success', 'Source item updated successfully.');
     }
 
-    public function destroy($id)
+    public function destroy(SourceItem $sourceItem)
     {
-        $sourceItem = SourceItem::findOrFail($id);
         $sourceItem->delete();
-        return response()->json(null, 204);
+
+        return redirect()->route('source-items.index')->with('success', 'Source item deleted successfully.');
     }
 }

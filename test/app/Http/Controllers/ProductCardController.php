@@ -2,93 +2,57 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Models\ProductCard;
-use App\Models\SourceItem;
+use Illuminate\Http\Request;
 
 class ProductCardController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
         $productCards = ProductCard::all();
-        return response()->json($productCards);
+        return view('product-cards.index', compact('productCards'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
-        //
+        return view('product-cards.create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
         $validatedData = $request->validate([
-            'name' => 'required|string',
-            'article_number' => 'required|string',
-            'retail_price' => 'nullable|numeric',
+            'name' => 'required',
+            'article_number' => 'required|unique:product_cards',
+            'retail_price' => 'required|numeric',
         ]);
 
-        $productCard = ProductCard::create($validatedData);
-        return response()->json($productCard, 201);
+        ProductCard::create($validatedData);
+
+        return redirect()->route('product-cards.index')->with('success', 'Product card created successfully.');
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show($id)
+    public function edit(ProductCard $productCard)
     {
-        $productCard = ProductCard::findOrFail($id);
-        return response()->json($productCard);
+        return view('product-cards.edit', compact('productCard'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
+    public function update(Request $request, ProductCard $productCard)
     {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, $id)
-    {
-        $productCard = ProductCard::findOrFail($id);
-
         $validatedData = $request->validate([
-            'name' => 'required|string',
-            'article_number' => 'required|string',
-            'retail_price' => 'nullable|numeric',
+            'name' => 'required',
+            'article_number' => 'required|unique:product_cards,article_number,'.$productCard->id,
+            'retail_price' => 'required|numeric',
         ]);
+
         $productCard->update($validatedData);
-        return response()->json($productCard, 200);
+
+        return redirect()->route('product-cards.index')->with('success', 'Product card updated successfully.');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy($id)
+    public function destroy(ProductCard $productCard)
     {
-        $productCard = ProductCard::findOrFail($id);
         $productCard->delete();
-        return response()->json(null, 204);
-    }
-    public function associate(ProductCard $productCard, SourceItem $sourceItem)
-    {
-        // Проверка, что карточка товара и товар источник принадлежат пользователю или другая логика безопасности
 
-        $productCard->sourceItems()->attach($sourceItem);
-
-        return response()->json(['message' => 'Товары успешно сопоставлены']);
+        return redirect()->route('product-cards.index')->with('success', 'Product card deleted successfully.');
     }
 }
-
