@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 /**
  * App\Models\ProductCard
@@ -62,5 +63,6 @@ class ProductCard extends Model
             'retail_price' => $priceRet,
         ];
     }
+    use HasFactory;
 
 }

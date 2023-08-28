@@ -9,25 +9,18 @@ class SourceItemsTableSeeder extends Seeder
 {
     public function run()
     {
-        SourceItem::create([
-            'name' => 'Элемент 1',
-            'opt_price' => 5.99,
-            'retail_price' => 4.99,
-        ]);
+        // Создание 50 уникальных карточек товаров
+        $sourceitems = [];
 
-        SourceItem::create([
-            'name' => 'Элемент 2',
-            'opt_price' => 15.99,
-            'retail_price' => 19.99,
-        ]);
-        SourceItem::create([
-            'name' => 'Элемент 3',
-            'opt_price' => 10.99,
-        ]);
+        for ($i = 1; $i <= 50; $i++) {
+            $sourceitems[] = [
+                'name' => 'Элемент ' . $i,
+                'opt_price' => rand(0.99, 99.99),
+                'retail_price' => rand(0.99, 99.99),
+            ];
+        }
 
-        SourceItem::create([
-            'name' => 'Элемент 4',
-            'opt_price' => 25.99,
-        ]);
+        SourceItem::insert($sourceitems);
     }
 }
+

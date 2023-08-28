@@ -4,33 +4,23 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use App\Models\ProductCard;
+use Illuminate\Database\Eloquent\Factories\Factory;
 
 class ProductCardsTableSeeder extends Seeder
 {
     public function run()
     {
-        // Создание карточек товаров
-        ProductCard::create([
-            'name' => 'Товар 1',
-            'article_number' => '123456',
-            'retail_price' => 5.99,
-        ]);
+        // Создание 50 уникальных карточек товаров
+        $productCards = [];
 
-        ProductCard::create([
-            'name' => 'Товар 2',
-            'article_number' => '789012',
-            'retail_price' => 19.99,
-        ]);
-        ProductCard::create([
-            'name' => 'Товар 3',
-            'article_number' => '345678',
-            'retail_price' => null,
-        ]);
+        for ($i = 1; $i <= 50; $i++) {
+            $productCards[] = [
+                'name' => 'Товар ' . $i,
+                'article_number' => random_int(100000, 999999),
+                'retail_price' => rand(0.99, 99.99),
+            ];
+        }
 
-        ProductCard::create([
-            'name' => 'Товар 4',
-            'article_number' => '901234',
-            'retail_price' => 29.99,
-        ]);
+        ProductCard::insert($productCards);
     }
 }
