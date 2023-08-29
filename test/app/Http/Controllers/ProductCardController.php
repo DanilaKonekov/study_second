@@ -40,7 +40,7 @@ class ProductCardController extends Controller
     {
         $validatedData = $request->validate([
             'name' => 'required',
-            'article_number' => 'required|unique:product_cards,article_number,'.$productCard->id,
+            'article_number' => 'required|unique:product_cards,article_number,' . $productCard->id,
             'retail_price' => 'required|numeric',
         ]);
 
@@ -55,17 +55,28 @@ class ProductCardController extends Controller
 
         return redirect()->route('product-cards.index')->with('success', 'Product card deleted successfully.');
     }
-    public function show($id, ProductCard $productCard)
+
+    public function searchResults(Request $request)
     {
+        $validator = Validator::make($request->all(), [
+            'query' => 'required|string|max:255',
+        ]);
+
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator)->withInput();
+        }
+
+        $query = $request->input('query');
+
+        $results = ProductCard::where('name', 'LIKE', "%{$query}%")->get();
+
+        return view('product-cards.results', compact('results'));
+    }
+    public function show($id)
+    {
+        // Логика для отображения информации о конкретной карточке товара (по ее идентификатору)
         $productCard = ProductCard::findOrFail($id);
 
-        // Получаем значение запроса из GET-параметра 'query' или используем пустую строку
-        $query = request()->input('query', '');
-
-        // Применяем оператор LIKE для поиска товаров
-        $conccurency = $productCard->conccurency()
-            ->where('name', 'LIKE', "%{$query}%")
-            ->get();
-        return view('products-cards.show', compact('product-cards', 'conccurency'));
+        return view('product-cards.show', compact('productCard'));
     }
 }

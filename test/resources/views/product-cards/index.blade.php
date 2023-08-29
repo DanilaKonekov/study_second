@@ -5,13 +5,13 @@
 </head>
 <body>
 <table>
-    <thead>
-    <tr>
-        <th>Title</th>
-        <th>Article</th>
-        <th>Retail Price</th>
-    </tr>
-    </thead>
+    <h1>Список карточек товаров</h1>
+
+    <!-- Форма поиска -->
+    <form action="{{ route('product-cards.search') }}" method="GET">
+        <input type="text" name="query" placeholder="Поиск..." value="{{ request()->input('query') }}">
+        <button type="submit">Найти</button>
+    </form>
     <tbody>
     @foreach ($productCards as $productCard)
         <div>
