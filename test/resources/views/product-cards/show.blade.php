@@ -4,10 +4,6 @@
     <title>Результаты поиска</title>
 </head>
 <body>
-html
-@extends('layouts.app')
-
-@section('content')
     <h1>Результаты поиска:</h1>
 
     <table>

@@ -4,32 +4,25 @@
     <title>Результаты поиска</title>
 </head>
 <body>
-html
-@extends('layouts.app')
-
-@section('content')
-    <h1>Результаты поиска:</h1>
-
+    <div>
+        <h1>Результаты поиска:</h1>
+    </div>
     <table>
         <thead>
         <tr>
-            <th>Наименование товара</th>
-            <th>Оптовая цена</th>
+            <th>Название</th>
+            <th>Артикул</th>
             <th>Розничная цена</th>
-            <th>Разница в цене</th>
         </tr>
         </thead>
         <tbody>
-        @foreach ($concurrency as $item)
+        @foreach ($results as $productCard)
             <tr>
-                <td>{{ $item->name }}</td>
-                <td>{{ $item->calculatePrice()['opt_price'] }}</td>
-                <td>{{ $item->calculatePrice()['retail_price'] }}</td>
-                <td>{{ $item->calculatePrice()['retail_price'] - $item->calculatePrice()['opt_price'] }}</td>
+                <td>{{ $productCard->name }}</td>
+                <td>{{ $productCard->article_number }}</td>
+                <td>{{ $productCard->retail_price }}</td>
             </tr>
-        @endforeach
         </tbody>
     </table>
-@endsection
 </body>
 </html>

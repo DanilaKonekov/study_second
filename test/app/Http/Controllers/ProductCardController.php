@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\ProductCard;
 use Illuminate\Http\Request;
-use function Sodium\add;
+
 
 class ProductCardController extends Controller
 {
@@ -69,9 +69,9 @@ class ProductCardController extends Controller
 
         $query = $request->input('query');
 
-        $results = ProductCard::where('name', 'LIKE', "%{$query}%")->get();
+        $results = ProductCard::where('name', 'LIKE', "%$query%")->get();
 
-        return view('product-cards.results', compact('results'));
+        return view('product-cards.search', compact('results'));
     }
     public function show($id)
     {
