@@ -22,6 +22,7 @@
                 <td>{{ $productCard->article_number }}</td>
                 <td>{{ $productCard->retail_price }}</td>
             </tr>
+        @endforeach
         </tbody>
     </table>
 </body>

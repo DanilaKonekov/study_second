@@ -6,9 +6,9 @@ use App\Http\Controllers\SourceItemController;
 
 Route::get('product-cards/search', [ProductCardController::class, 'searchResults'])->name('product-cards.search');
 Route::resource('source-items', SourceItemController::class);
-//Route::post('product-cards/{productCard}/associate/{sourceItem}', [ProductCardController::class, 'associate']);
+Route::post('product-cards/{productCard}/associate/{sourceItem}', [ProductCardController::class, 'associate']);
 Route::resource('product-cards', ProductCardController::class);
-//Route::get('product-cards/{id}', [ProductCardController::class, 'show'])->name('product-cards.show');
+Route::get('product-cards/{id}', [ProductCardController::class, 'show'])->name('product-cards.show');
 
 //  должен быть в самом низу
 Route::fallback(function (){

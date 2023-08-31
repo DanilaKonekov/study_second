@@ -9,7 +9,7 @@ use App\Models\SourceItem;
 
 class ProductCardListCommand extends Command
 {
-    protected $signature = 'product-card:list';
+    protected $signature = 'product-cards:list';
 
     protected $description = 'Display a list of product cards with prices';
 

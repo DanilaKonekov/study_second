@@ -19,12 +19,12 @@
     </tr>
     </thead>
     <tbody>
-    @foreach ($productCards as $productCard)
+    @foreach ($productCards as $product)
         <tr>
-            <td>{{ $productCard->name }}</td>
+            <td>{{ $product->name }}</td>
             <td>
-                <a href="{{ route('product-cards.edit', $productCard) }}">Редактировать</a>
-                <form action="{{ route('product-cards.destroy', $productCard) }}" method="POST">
+                <a href="{{ route('product-cards.edit', $product) }}">Редактировать</a>
+                <form action="{{ route('product-cards.destroy', $product) }}" method="POST">
                     @csrf
                     @method('DELETE')
                     <button type="submit">Удалить</button>
