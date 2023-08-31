@@ -55,4 +55,21 @@ class SourceItemController extends Controller
 
         return redirect()->route('source-items.index')->with('success', 'Source item deleted successfully.');
     }
+    public function searchSource(Request $request)
+    {
+        $validator = \Validator::make($request->all(), [
+            'query' => 'required|string|max:255',
+        ]);
+
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator)->withInput();
+        }
+
+        $query = $request->input('query');
+
+        $results = SourceItem::where('name', 'LIKE', "%$query%")->get();
+
+        return view('source-items.search', compact('results'));
+    }
 }
+
