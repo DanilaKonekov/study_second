@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\ProductCard;
 use Illuminate\Http\Request;
+use function Sodium\add;
 
 class ProductCardController extends Controller
 {
@@ -58,7 +59,7 @@ class ProductCardController extends Controller
 
     public function searchResults(Request $request)
     {
-        $validator = Validator::make($request->all(), [
+        $validator = \Validator::make($request->all(), [
             'query' => 'required|string|max:255',
         ]);
 
