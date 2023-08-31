@@ -30,4 +30,12 @@ class Concurrency extends Model
         'competitor_name',
         'price_difference'
     ];
+    public function productCard()
+    {
+        return $this->belongsTo(ProductCard::class, 'product_card_id');
+    }
+    public function sourceItem()
+    {
+        return $this->belongsTo(SourceItem::class, 'source_item_id');
+    }
 }

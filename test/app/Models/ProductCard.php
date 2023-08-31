@@ -44,6 +44,7 @@ class ProductCard extends Model
     {
         $priceOpt = null;
         $priceRet = null;
+        $priceDiff = null;
 
         foreach ($this->sourceItems as $sourceItem) {
             $optPrice = $sourceItem->opt_price;
@@ -56,11 +57,13 @@ class ProductCard extends Model
                 $priceOpt = $optPrice;
                 $priceRet = $retailPrice;
             }
+            $priceDiff = $priceRet - $priceOpt;
         }
 
         return [
             'opt_price' => $priceOpt,
             'retail_price' => $priceRet,
+            'price_difference' => $priceDiff,
         ];
     }
     use HasFactory;
